@@ -1,0 +1,58 @@
+{
+  "entities": {
+    "transmission": {
+      "title": "Transmission",
+      "description": "A contact or membership request sent by a user.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "message": { "type": "string" },
+        "type": { "type": "string", "enum": ["contact", "membership"] },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "plan": { "type": "string", "enum": ["Unlimited", "Creative", "Day Pass"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "message", "type", "status", "createdAt"]
+    },
+    "member": {
+      "title": "Member",
+      "description": "An approved member of the Orbit workspace.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "plan": { "type": "string" },
+        "joinedAt": { "type": "string", "format": "date-time" },
+        "status": { "type": "string" }
+      },
+      "required": ["name", "email", "plan", "joinedAt", "status"]
+    },
+    "space": {
+      "title": "Space",
+      "description": "A workspace area with capacity limits.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "capacity": { "type": "number" },
+        "currentOccupancy": { "type": "number" },
+        "category": { "type": "string" }
+      },
+      "required": ["name", "capacity", "currentOccupancy"]
+    }
+  },
+  "firestore": {
+    "/transmissions/{transmissionId}": {
+      "schema": "transmission",
+      "description": "Incoming requests from the public."
+    },
+    "/members/{memberId}": {
+      "schema": "member",
+      "description": "Registered members of the workspace."
+    },
+    "/spaces/{spaceId}": {
+      "schema": "space",
+      "description": "Available workspace zones."
+    }
+  }
+}
